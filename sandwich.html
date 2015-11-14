@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<style></style>
+<body>
+	<div id = "article"> <div>
+<script>
+function WriteNewsStory(company, symbol, day, quarter, income){
+if (quarter == 3){
+	quarter = "third";}
+	else if (quarter ==1){
+		quarter = "first";}
+	else if (quarter ==2){
+		quarter = "second";}
+	else{
+		quarter = "fourth";}
+	var incomepretty;
+	if (income > =1000000){
+		incomepretty= income/1000000+" million ";}
+		else {incomepretty = income;
+		} // close else 
+
+// var message = "Hello, world!";
+	console.log
+	$("#article").append ("<p>" + company +" (" + symbol + ") on " + day+ " reported fiscal "+quarter+" -quarter net income of $ "+incomepretty+"."); 
+
+	+</p); 
+
+} // CloseNewsStory
+WriteNewsStory("macys", "M", "Wednesday", 3, 118000000);
+
+
+</script>
+</body>
+</html>
+
+
