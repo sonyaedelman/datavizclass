@@ -3,12 +3,29 @@
 <head>
 <meta charset="utf-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<title> Sonya Edelman - Data Visualization 2015 </title>
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1,
-minimum-scale=1, maximum-scale=1, user-scalable=no">
+  <script src="bower_components/squared/dist/squared.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  
+  <style type="text/css">
+.squared-geog {
+    background-color: #FDC26D;
+}
+.squared-geog.small {
+    background-color: red;
+    color: white;
+    font-family: 'Lato', sans-serif;
+}
+.squared-geog.medium {
+    background-color: green;
+    color: white;
+    font-family: 'Lato', sans-serif;
+}
+.squared-geog.large {
+    background-color: blue;
+    color: white;
+    font-family: 'Lato', sans-serif;
+}
 
-<style>
 @media  only screen and (min-width : 320px) and (max-width : 763px) { .desktop {
 	display: none;
 }
@@ -17,9 +34,36 @@ minimum-scale=1, maximum-scale=1, user-scalable=no">
 @media only screen and (min-midth : 764px) { .phone, .desktop {
 	display: none;
 }
+}#D3Graph {
+  font: 10px sans-serif;
 }
 
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+
 </style>
+
+<title> Sonya Edelman - Data Visualization 2015 </title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1,
+minimum-scale=1, maximum-scale=1, user-scalable=no">
+
+
 </head>
 <body>
 
@@ -82,8 +126,158 @@ for(var i = 0; i < anchor; i++) {
 
 <h1> Class 5 </h1>
 
+<h2> Percent of households with kids under 18 </h2>
+
+<div id="map" style="width: 600px; height: 400px"></div>
+
+  
+<script>
+var mydata = [
+{"full_name":"Alabama","name":"AL","households18":26.4},
+{"full_name":"Alaska","name":"AK","households18":32.6},
+{"full_name":"Arizona","name":"AZ","households18":27.1},
+{"full_name":"Arkansas","name":"AR","households18":27.5},
+{"full_name":"California","name":"CA","households18":31.2},
+{"full_name":"Colorado","name":"CO","households18":29.4},
+{"full_name":"Connecticut","name":"CT","households18":28},
+{"full_name":"Delaware","name":"DE","households18":25.7},
+{"full_name":"Florida","name":"FL","households18":23.8},
+{"full_name":"Georgia","name":"GA","households18":30.8},
+{"full_name":"Hawaii","name":"HI","households18":27.3},
+{"full_name":"Idaho","name":"ID","households18":30.5},
+{"full_name":"Illinois","name":"IL","households18":28.4},
+{"full_name":"Indiana","name":"IN","households18":28.3},
+{"full_name":"Iowa","name":"IA","households18":28.1},
+{"full_name":"Kansas","name":"KS","households18":29.4},
+{"full_name":"Kentucky","name":"KY","households18":27.1},
+{"full_name":"Louisiana","name":"LA","households18":27.3},
+{"full_name":"Maine","name":"ME","households18":23.5},
+{"full_name":"Maryland","name":"MD","households18":28.9},
+{"full_name":"Massachusetts","name":"MA","households18":27.4},
+{"full_name":"Michigan","name":"MI","households18":26.8},
+{"full_name":"Minnesota","name":"MN","households18":28.4},
+{"full_name":"Mississippi","name":"MS","households18":27.9},
+{"full_name":"Missouri","name":"MO","households18":26.8},
+{"full_name":"Montana","name":"MT","households18":24.2},
+{"full_name":"Nebraska","name":"NE","households18":29.3},
+{"full_name":"Nevada","name":"NV","households18":27.3},
+{"full_name":"New Hampshire","name":"NH","households18":26.6},
+{"full_name":"New Jersey","name":"NJ","households18":30.5},
+{"full_name":"New Mexico","name":"NM","households18":27},
+{"full_name":"New York","name":"NY","households18":26.7},
+{"full_name":"North Carolina","name":"NC","households18":27.9},
+{"full_name":"North Dakota","name":"ND","households18":27.8},
+{"full_name":"Ohio","name":"OH","households18":26.6},
+{"full_name":"Oklahoma","name":"OK","households18":28.7},
+{"full_name":"Oregon","name":"OR","households18":26},
+{"full_name":"Pennsylvania","name":"PA","households18":25.5},
+{"full_name":"Rhode Island","name":"RI","households18":26.5},
+{"full_name":"South Carolina","name":"SC","households18":25.4},
+{"full_name":"South Dakota","name":"SD","households18":26.4},
+{"full_name":"Tennessee","name":"TN","households18":27.3},
+{"full_name":"Texas","name":"TX","households18":32.8},
+{"full_name":"Utah","name":"UT","households18":38.4},
+{"full_name":"Vermont","name":"VT","households18":25.6},
+{"full_name":"Virginia","name":"VA","households18":29.3},
+{"full_name":"Washington","name":"WA","households18":27.7},
+{"full_name":"West Virginia","name":"WV","households18":22.8},
+{"full_name":"Wisconsin","name":"WI","households18":27.5},
+{"full_name":"Wyoming","name":"WY","households18":27.3}
+];
+
+  map = new Squared("map");
+  map.make();
+  
+       map.data(mydata, "name");
+    console.log(mydata);
+   map.makeColorScale('households18', {
+    minColor: "#63998F",
+  maxColor: "#b71821",
+  steps: 5
+  });
+  
+   // map.data(mydata, "name");
+//     console.log(mydata);
+//     map.addClass(function(d){
+//       if(d.households18 < 28)
+//         return "small";
+//        else if(d.households18 < 28 )
+//          return "medium";
+//        else return "large";
+//     });
+</script>
+
+
 <h1> Class 6 </h1>
+<h1> Unemployment Graph for United States </h1>
+<div id="D3Graph"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.10/d3.min.js"></script>
+<script>
+
+var margin = {top: 20, right: 20, bottom: 30, left: 50},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+var parseDate = d3.time.format("%m/%d/%y").parse;
+
+var x = d3.time.scale()
+    .range([0, width]);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var line = d3.svg.line()
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.close); });
+
+var svg = d3.select("#D3Graph").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.csv("data.csv", function(error, data) {
+  if (error) throw error;
+
+  data.forEach(function(d) {
+    d.date = parseDate(d.date);
+    d.close = +d.close;
+  });
+
+  x.domain(d3.extent(data, function(d) { return d.date; }));
+  y.domain(d3.extent(data, function(d) { return d.close; }));
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Unemployment (%)");
+
+  svg.append("path")
+      .datum(data)
+      .attr("class", "line")
+      .attr("d", line);
+});
 
 </script>
+
+
 </body>
 </html>
